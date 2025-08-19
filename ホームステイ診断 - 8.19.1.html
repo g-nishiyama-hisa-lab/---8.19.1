@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホームステイ先診断 - 5つの質問で最適な国と家庭を見つけよう</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .question-card {
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+        .question-card.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .question-card.prev {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- ヘッダー -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">🌍 ホームステイ先診断</h1>
+            <p class="text-lg text-gray-600">たった5つの質問で、あなたにぴったりの国と家庭タイプを見つけます</p>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-medium text-gray-600">進捗</span>
+                <span class="text-sm font-medium text-gray-600"><span id="currentQuestion">1</span> / 5</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="progressBar" class="bg-gradient-to-r from-purple-500 to-blue-500 h-3 rounded-full transition-all duration-500" style="width: 20%"></div>
+            </div>
+        </div>
+
+        <!-- 質問カード -->
+        <div class="relative overflow-hidden">
+            <!-- 質問1: 学習目的 -->
+            <div class="question-card active bg-white rounded-2xl shadow-xl p-8" data-question="1">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">📚</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">質問 1</h2>
+                    <p class="text-xl text-gray-700">ホームステイの主な目的は何ですか？</p>
+                </div>
+                <div class="space-y-4">
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all" data-value="language-intensive">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🎯</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">集中的な語学学習</div>
+                                <div class="text-sm text-gray-600">短期間で語学力を大幅に向上させたい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all" data-value="cultural-exchange">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🌏</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">文化交流・国際体験</div>
+                                <div class="text-sm text-gray-600">異文化を深く理解し、国際感覚を身につけたい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all" data-value="academic-preparation">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🎓</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">進学・留学準備</div>
+                                <div class="text-sm text-gray-600">海外の大学進学や長期留学の準備をしたい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all" data-value="career-development">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">💼</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">キャリア・ビジネススキル向上</div>
+                                <div class="text-sm text-gray-600">仕事で使える実践的なスキルを身につけたい</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 質問2: 環境の好み -->
+            <div class="question-card bg-white rounded-2xl shadow-xl p-8" data-question="2">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">🏙️</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">質問 2</h2>
+                    <p class="text-xl text-gray-700">どんな環境で過ごしたいですか？</p>
+                </div>
+                <div class="space-y-4">
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all" data-value="big-city">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🌆</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">大都市・国際都市</div>
+                                <div class="text-sm text-gray-600">刺激的で多様性に富んだ環境</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all" data-value="medium-city">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🏘️</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">中規模都市</div>
+                                <div class="text-sm text-gray-600">程よく便利で落ち着いた環境</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all" data-value="small-town">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🌳</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">小さな町・田舎</div>
+                                <div class="text-sm text-gray-600">自然豊かで地域密着型の環境</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all" data-value="coastal">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🏖️</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">海辺・リゾート地</div>
+                                <div class="text-sm text-gray-600">リラックスできる海沿いの環境</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 質問3: 交流スタイル -->
+            <div class="question-card bg-white rounded-2xl shadow-xl p-8" data-question="3">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">👨‍👩‍👧‍👦</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">質問 3</h2>
+                    <p class="text-xl text-gray-700">ホストファミリーとどのように過ごしたいですか？</p>
+                </div>
+                <div class="space-y-4">
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all" data-value="very-active">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🎉</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">積極的に家族活動に参加</div>
+                                <div class="text-sm text-gray-600">食事、外出、イベントなど家族と一緒に過ごす</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all" data-value="balanced">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">⚖️</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">バランスの取れた交流</div>
+                                <div class="text-sm text-gray-600">適度な交流と個人時間の両方を大切にする</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all" data-value="independent">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🚶</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">独立性を重視</div>
+                                <div class="text-sm text-gray-600">必要な時にサポートを受けつつ、自由に行動したい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all" data-value="learning-focused">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">📖</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">学習サポート重視</div>
+                                <div class="text-sm text-gray-600">語学や勉強のサポートを積極的に受けたい</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 質問4: 期間と予算 -->
+            <div class="question-card bg-white rounded-2xl shadow-xl p-8" data-question="4">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">📅</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">質問 4</h2>
+                    <p class="text-xl text-gray-700">滞在期間と予算はどの程度ですか？</p>
+                </div>
+                <div class="space-y-4">
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all" data-value="short-budget">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">⚡</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">短期・予算重視（1-4週間）</div>
+                                <div class="text-sm text-gray-600">コストを抑えて効率的に体験したい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all" data-value="medium-standard">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">📊</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">中期・標準的（1-3ヶ月）</div>
+                                <div class="text-sm text-gray-600">しっかりと学習成果を得たい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all" data-value="long-premium">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">💎</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">長期・プレミアム（3ヶ月以上）</div>
+                                <div class="text-sm text-gray-600">質の高い環境で深く学びたい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all" data-value="flexible">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🔄</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">柔軟に対応</div>
+                                <div class="text-sm text-gray-600">期間や予算は相談して決めたい</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 質問5: 重視するポイント -->
+            <div class="question-card bg-white rounded-2xl shadow-xl p-8" data-question="5">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">⭐</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">質問 5</h2>
+                    <p class="text-xl text-gray-700">最も重視するポイントは何ですか？</p>
+                </div>
+                <div class="space-y-4">
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-red-400 hover:bg-red-50 transition-all" data-value="safety-comfort">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🛡️</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">安全性・快適性</div>
+                                <div class="text-sm text-gray-600">治安が良く、安心して過ごせる環境</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-red-400 hover:bg-red-50 transition-all" data-value="language-immersion">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🗣️</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">語学習得効果</div>
+                                <div class="text-sm text-gray-600">ネイティブ環境で確実に語学力を向上させたい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-red-400 hover:bg-red-50 transition-all" data-value="unique-experience">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🎭</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">ユニークな体験</div>
+                                <div class="text-sm text-gray-600">他では得られない特別な文化体験をしたい</div>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="option-btn w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-red-400 hover:bg-red-50 transition-all" data-value="future-opportunities">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">🚀</span>
+                            <div>
+                                <div class="font-semibold text-gray-800">将来への投資</div>
+                                <div class="text-sm text-gray-600">キャリアや進学に直結する経験を積みたい</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションボタン -->
+        <div class="flex justify-between mt-8">
+            <button id="prevBtn" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                ← 前の質問
+            </button>
+            <button id="nextBtn" class="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                次の質問 →
+            </button>
+        </div>
+
+        <!-- 結果表示エリア -->
+        <div id="result" class="hidden mt-8 bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">🎉 診断結果</h2>
+                <p class="text-lg text-gray-600">あなたにおすすめのホームステイ先をご提案します！</p>
+            </div>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let answers = {};
+        const totalQuestions = 5;
+
+        // 選択肢クリック処理
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.option-btn')) {
+                const btn = e.target.closest('.option-btn');
+                const questionCard = btn.closest('.question-card');
+                const questionNum = questionCard.dataset.question;
+                
+                // 同じ質問の他の選択肢の選択を解除
+                questionCard.querySelectorAll('.option-btn').forEach(b => {
+                    b.classList.remove('border-purple-500', 'bg-purple-100', 'border-blue-500', 'bg-blue-100', 
+                                      'border-green-500', 'bg-green-100', 'border-orange-500', 'bg-orange-100',
+                                      'border-red-500', 'bg-red-100');
+                });
+                
+                // 選択された選択肢をハイライト
+                const colors = ['purple', 'blue', 'green', 'orange', 'red'];
+                const color = colors[questionNum - 1];
+                btn.classList.add(`border-${color}-500`, `bg-${color}-100`);
+                
+                // 回答を保存
+                answers[`q${questionNum}`] = btn.dataset.value;
+                
+                // 次へボタンを有効化
+                document.getElementById('nextBtn').disabled = false;
+                
+                // 0.5秒後に自動的に次の質問へ
+                setTimeout(() => {
+                    if (currentQuestion < totalQuestions) {
+                        document.getElementById('nextBtn').click();
+                    } else {
+                        // 最後の質問の場合は結果表示
+                        document.getElementById('nextBtn').click();
+                    }
+                }, 500);
+            }
+        });
+
+        // 次へボタン処理
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            if (currentQuestion < totalQuestions) {
+                // 現在の質問を非表示
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('prev');
+                
+                currentQuestion++;
+                
+                // 次の質問を表示
+                setTimeout(() => {
+                    document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                }, 250);
+                
+                // プログレスバー更新
+                updateProgress();
+                
+                // ボタン状態更新
+                updateButtons();
+                
+                // 最後の質問の場合、結果を表示
+                if (currentQuestion === totalQuestions) {
+                    this.textContent = '結果を見る 🎯';
+                }
+            } else {
+                // 結果表示（即座に）
+                this.disabled = true;
+                this.innerHTML = '結果を計算中... ⏳';
+                
+                setTimeout(() => {
+                    showResults();
+                }, 800);
+            }
+        });
+
+        // 前へボタン処理
+        document.getElementById('prevBtn').addEventListener('click', function() {
+            if (currentQuestion > 1) {
+                // 現在の質問を非表示
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                
+                currentQuestion--;
+                
+                // 前の質問を表示
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('prev');
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                
+                // プログレスバー更新
+                updateProgress();
+                
+                // ボタン状態更新
+                updateButtons();
+                
+                // 次へボタンのテキストを戻す
+                document.getElementById('nextBtn').textContent = '次の質問 →';
+            }
+        });
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestion;
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestion === 1;
+            
+            // 現在の質問に回答があるかチェック
+            const hasAnswer = answers[`q${currentQuestion}`];
+            nextBtn.disabled = !hasAnswer;
+        }
+
+        function showResults() {
+            // 結果を計算
+            const recommendation = calculateRecommendation(answers);
+            
+            // 結果表示
+            const resultDiv = document.getElementById('result');
+            const contentDiv = document.getElementById('resultContent');
+            
+            let html = `
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-blue-800 mb-4">🌍 おすすめの国</h3>
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">${recommendation.country.flag}</div>
+                            <div class="text-2xl font-bold text-gray-800">${recommendation.country.name}</div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div><span class="font-medium">🗣️ 言語:</span> ${recommendation.country.language}</div>
+                            <div><span class="font-medium">🏙️ 環境:</span> ${recommendation.country.environment}</div>
+                            <div><span class="font-medium">💰 予算目安:</span> ${recommendation.country.budget}</div>
+                        </div>
+                        <p class="text-gray-700 mt-4 text-sm">${recommendation.country.description}</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-green-800 mb-4">🏠 おすすめの家庭タイプ</h3>
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">${recommendation.family.icon}</div>
+                            <div class="text-xl font-bold text-gray-800">${recommendation.family.type}</div>
+                            <div class="text-lg font-semibold text-green-700 mt-1">${recommendation.family.name}</div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div><span class="font-medium">👥 構成:</span> ${recommendation.family.composition}</div>
+                            <div><span class="font-medium">🎯 特徴:</span> ${recommendation.family.features}</div>
+                            <div><span class="font-medium">📚 サポート:</span> ${recommendation.family.support}</div>
+                        </div>
+                        <p class="text-gray-700 mt-4 text-sm">${recommendation.family.description}</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-yellow-800 mb-4">💡 あなたへのアドバイス</h3>
+                    <div class="space-y-3 text-sm text-gray-700">
+                        ${recommendation.advice.map(tip => `<div class="flex items-start"><span class="text-yellow-600 mr-2">•</span><span>${tip}</span></div>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button onclick="restartQuiz()" class="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-purple-600 hover:to-blue-600 transition-all mr-4">
+                        🔄 もう一度診断する
+                    </button>
+                    <button onclick="getDetailedInfo()" class="bg-white border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:border-gray-400 transition-all">
+                        📋 詳細情報を見る
+                    </button>
+                </div>
+            `;
+            
+            contentDiv.innerHTML = html;
+            resultDiv.classList.remove('hidden');
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateRecommendation(answers) {
+            // 回答に基づいて国と家庭タイプを決定
+            const countries = {
+                'usa': {
+                    name: 'アメリカ',
+                    flag: '🇺🇸',
+                    language: '英語',
+                    environment: '多様性豊かな大都市から小さな町まで',
+                    budget: '中〜高',
+                    description: '世界最大の英語圏で、多様な文化と最新のトレンドを体験できます。ビジネス英語や進学準備に最適です。'
+                },
+                'uk': {
+                    name: 'イギリス',
+                    flag: '🇬🇧',
+                    language: '英語（ブリティッシュ）',
+                    environment: '歴史ある都市と美しい田園地帯',
+                    budget: '高',
+                    description: '伝統と格式を重んじる文化で、正統な英語を学べます。ヨーロッパ各国へのアクセスも良好です。'
+                },
+                'canada': {
+                    name: 'カナダ',
+                    flag: '🇨🇦',
+                    language: '英語・フランス語',
+                    environment: '自然豊かで治安の良い環境',
+                    budget: '中',
+                    description: '安全で親しみやすい国民性が特徴。自然を愛する人や初めての海外体験におすすめです。'
+                },
+                'australia': {
+                    name: 'オーストラリア',
+                    flag: '🇦🇺',
+                    language: '英語（オーストラリア英語）',
+                    environment: '温暖な気候とリラックスした雰囲気',
+                    budget: '中〜高',
+                    description: 'フレンドリーな国民性と美しい自然環境。アウトドア活動を楽しみながら英語を学べます。'
+                },
+                'newzealand': {
+                    name: 'ニュージーランド',
+                    flag: '🇳🇿',
+                    language: '英語',
+                    environment: '壮大な自然と小規模コミュニティ',
+                    budget: '中',
+                    description: '手つかずの自然と温かいコミュニティが魅力。アドベンチャー好きや自然愛好家に最適です。'
+                }
+            };
+
+            const families = {
+                'active-family': {
+                    type: 'アクティブファミリー',
+                    name: 'ジョンソン家',
+                    icon: '🎉',
+                    composition: '両親+子供2-3人',
+                    features: '家族活動が豊富、外向的',
+                    support: '積極的な交流とサポート',
+                    description: '家族全員で様々な活動を楽しむ活発な家庭。週末の外出や家族イベントに積極的に参加できます。マイクさん（45歳・会社員）、サラさん（42歳・看護師）、エミリーちゃん（16歳）、ジェイクくん（13歳）の4人家族です。'
+                },
+                'academic-family': {
+                    type: '教育重視ファミリー',
+                    name: 'スミス家',
+                    icon: '📚',
+                    composition: '両親+学生の子供',
+                    features: '学習環境が整っている',
+                    support: '勉強のサポートが充実',
+                    description: '教育を重視する家庭で、静かな学習環境と学習サポートが期待できます。デイビッドさん（48歳・大学教授）、リンダさん（46歳・図書館司書）、アレックスくん（17歳・高校生）の3人家族です。'
+                },
+                'professional-couple': {
+                    type: 'プロフェッショナル夫妻',
+                    name: 'ウィルソン夫妻',
+                    icon: '💼',
+                    composition: '働く夫婦（子供なしまたは独立済み）',
+                    features: '独立性を尊重、都市部在住',
+                    support: 'キャリアアドバイスと文化交流',
+                    description: 'キャリアを積んだ夫婦で、独立性を尊重しながら質の高い文化交流ができます。ロバートさん（52歳・弁護士）、ジェニファーさん（49歳・マーケティングディレクター）のご夫妻です。'
+                },
+                'traditional-family': {
+                    type: '伝統的ファミリー',
+                    name: 'ブラウン家',
+                    icon: '🏡',
+                    composition: '三世代同居または地域密着型',
+                    features: '地域文化に深く根ざしている',
+                    support: '文化体験と言語サポート',
+                    description: 'その国の伝統的な生活様式を体験できる家庭。地域コミュニティとの繋がりも深いです。トムさん（55歳・地元企業経営）、メアリーさん（53歳・主婦）、おばあちゃんのベティさん（78歳）の3人家族です。'
+                }
+            };
+
+            // 簡単なマッチングロジック
+            let recommendedCountry = 'canada'; // デフォルト
+            let recommendedFamily = 'academic-family'; // デフォルト
+
+            // 目的に基づく国の選択
+            if (answers.q1 === 'language-intensive') {
+                recommendedCountry = 'uk';
+            } else if (answers.q1 === 'cultural-exchange') {
+                recommendedCountry = 'australia';
+            } else if (answers.q1 === 'academic-preparation') {
+                recommendedCountry = 'usa';
+            } else if (answers.q1 === 'career-development') {
+                recommendedCountry = 'canada';
+            }
+
+            // 環境に基づく調整
+            if (answers.q2 === 'big-city') {
+                if (recommendedCountry === 'newzealand') recommendedCountry = 'usa';
+            } else if (answers.q2 === 'small-town') {
+                if (recommendedCountry === 'usa') recommendedCountry = 'newzealand';
+            }
+
+            // 交流スタイルに基づく家庭タイプの選択
+            if (answers.q3 === 'very-active') {
+                recommendedFamily = 'active-family';
+            } else if (answers.q3 === 'learning-focused') {
+                recommendedFamily = 'academic-family';
+            } else if (answers.q3 === 'independent') {
+                recommendedFamily = 'professional-couple';
+            } else if (answers.q3 === 'balanced') {
+                recommendedFamily = 'traditional-family';
+            }
+
+            // アドバイス生成
+            const advice = [
+                '出発前に基本的な挨拶や日常会話を練習しておきましょう',
+                'ホストファミリーとの初日に自己紹介と日本の文化について話せるよう準備しましょう',
+                '現地の文化や習慣について事前に調べておくと、より深い交流ができます',
+                '困ったことがあれば遠慮せずにホストファミリーに相談しましょう'
+            ];
+
+            return {
+                country: countries[recommendedCountry],
+                family: families[recommendedFamily],
+                advice: advice
+            };
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            answers = {};
+            
+            // 全ての質問カードをリセット
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                card.classList.remove('active', 'prev');
+                if (index === 0) {
+                    card.classList.add('active');
+                }
+                
+                // 選択状態をリセット
+                card.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('border-purple-500', 'bg-purple-100', 'border-blue-500', 'bg-blue-100', 
+                                        'border-green-500', 'bg-green-100', 'border-orange-500', 'bg-orange-100',
+                                        'border-red-500', 'bg-red-100');
+                });
+            });
+            
+            // 結果を非表示
+            document.getElementById('result').classList.add('hidden');
+            
+            // プログレスバーとボタンをリセット
+            updateProgress();
+            updateButtons();
+            document.getElementById('nextBtn').textContent = '次の質問 →';
+            
+            // トップにスクロール
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getDetailedInfo() {
+            alert('詳細な資料をお送りします！実際のシステムでは、連絡先入力フォームや資料請求ページに遷移します。');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9715a4e6d7ff4e26',t:'MTc1NTU2NDQ5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
